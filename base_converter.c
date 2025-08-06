@@ -207,7 +207,7 @@ char digit2alpabet(int d) {
 
 int cal_len(int tar, int base) {
     int ans = 1;
-    while (tar > base) {
+    while (tar >= base) {
         tar = tar / base;
         ans++;
     }
@@ -225,4 +225,5 @@ void print_usage(void) {
     printf("<mode>\n");
     printf("s - simplified\n");
 }
+
 
