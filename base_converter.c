@@ -198,7 +198,7 @@ char digit2alpabet(int d) {
     if (d <= 9 && d >= 0) {
         return d + '0';
     } else if (d <= 36 && d >= 10) {
-        return d + 'A';
+        return d + 'A' - 10;
     } else {
         perror("invalid input, cast by d2a");
         exit(EXIT_FAILURE);
@@ -225,3 +225,4 @@ void print_usage(void) {
     printf("<mode>\n");
     printf("s - simplified\n");
 }
+
