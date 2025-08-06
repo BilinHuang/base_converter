@@ -1,3 +1,6 @@
+
+// version 3.1
+
 #include <malloc.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,9 +49,15 @@ int main(int argc, char *argv[]) {
         cmd->input_mode = judge_input_method(cmd->ori_str);
     }
 
+
+    if (cmd->output_mode <= 1 && cmd->output_mode != -1) {
+        printf("invalid output mode: %d\n", cmd->output_mode);
+        return 1;
+    }
+
     calculate(cmd);
     free(cmd);
-    return 1;
+    return 0;
 }
 
 int alphabet2digit(char c) {
@@ -59,7 +68,9 @@ int alphabet2digit(char c) {
     } else if (c <= 'Z' && c >= 'A') {
         return c - 'A' + 10;
     } else {
-        perror("invalid input, cast by a2d");
+
+        printf("recieved letter: %d\n", c);
+        fprintf(stderr, "invalid input, cast by a2d\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -71,7 +82,8 @@ int judge_input_method(char s[]) {
             return 2;
         } else if (s[1] == 'd' || s[1] == 'o') {
             return 10;
-        } else if (s[1] == 'h') {
+        } else if (s[1] == 'x' || s[1] == 'h') {
+
             return 16;
         }
     }
@@ -94,7 +106,10 @@ int judge_input_method(char s[]) {
 int judge_mode(char m) {
     if (m == 'b') {
         return 2;
-    } else if (m == 'd' || m == 'o') {
+
+    } else if (m == 'o') {
+        return 8;
+    } else if (m == 'd') {
         return 10;
     } else if (m == 'h') {
         return 16;
@@ -102,81 +117,6 @@ int judge_mode(char m) {
     return -1;
 }
 
-void handle_input(char *argv[], int argc, struct command *cmd) {
-    // a counter to decide input or output
-    int base_count = 0;
-    
-    for (int i = 1; i < argc - 1; i++) {
-        if (argv[i][0] == '-') {
-            if (argv[i][1] <= '9' && argv[i][1] >= '0') {
-                if (base_count == 0) {
-                    cmd->input_mode = -atoi(argv[i]);
-                } else if (base_count == 1) {
-                    cmd->output_mode = -atoi(argv[i]);
-                }
-                base_count++;
-            }
-        }
-        if (strlen(argv[i]) == 2 && strstr("-b-d-o-h",argv[i]) != NULL) {
-            if (base_count == 0) {
-                cmd->input_mode = judge_mode(argv[i][1]);
-            } else if (base_count == 1) {
-                cmd->output_mode = judge_mode(argv[i][1]);
-            }
-            
-            base_count++;
-        }
-
-    }
-}
-
-struct command *new_cmd(void) {
-    struct command *cmd = malloc(sizeof(struct command));
-    cmd->input_mode = -1;
-    cmd->output_mode = -1;
-    for (int i = 0; i < MODE_NUM; i++) {
-        cmd->mode[i] = -1;
-    }
-    return cmd;
-}
-
-void calculate(struct command *cmd) {
-    printf("converting %s in base %d to ", cmd->ori_str, cmd->input_mode);
-    if (cmd->output_mode != -1) {
-        printf("base %d", cmd->output_mode);
-    } else {
-        printf("unspecified base");
-    }
-
-    if (cmd->mode[SIMPLIFIED] == 1) {
-        printf("(Simplified)");
-    }
-    printf("\n");
-
-    if (strlen(cmd->ori_str) <= 2) {
-        cmd->target = atoi(cmd->ori_str);
-    }
-
-    int len = strlen(cmd->ori_str);
-    int first_digit = 0;
-    if (cmd->ori_str[0] == '0') {
-        first_digit = 2;
-    }
-    int mul = 1;
-    int sum = 0;
-    for (int i = len - 1; i >= first_digit; i--) {
-        int digit = alphabet2digit(cmd->ori_str[i]);
-        if (digit > cmd->input_mode - 1) {
-            perror("incompatible input");
-        }
-        sum += mul * digit;
-        mul *= cmd->input_mode;
-    }
-
-    // assume ans is now in deimal
-    cmd->target = sum;
-    printf("in base (10), the number is %d\n", sum);
-    print_in_given_base(cmd);
 }
 
 void print_in_given_base(struct command *cmd) {
@@ -225,5 +165,3 @@ void print_usage(void) {
     printf("<mode>\n");
     printf("s - simplified\n");
 }
-
-
