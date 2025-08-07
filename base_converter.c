@@ -1,6 +1,6 @@
 // version 3.0
 // This version supports arbitary argument sequence
-//
+// And supports argument like 10 without "-" when casting a base
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
@@ -258,6 +258,7 @@ void calculate(struct command *cmd) {
 	printf("in base (10), the number is %d\n", sum);
 	print_in_given_base(cmd);
 }
+
 
 
 
