@@ -179,7 +179,7 @@ struct command *new_cmd(void) {
     cmd->input_mode = -1;
     cmd->output_mode = -1;
     for (int i = 0; i < MODE_NUM; i++) {
-        cmd->mode[i] = -1;
+        cmd->mode[i] = 0;
     }
     return cmd;
 }
@@ -191,19 +191,11 @@ void calculate(struct command *cmd) {
         printf("converting %s in base %d to ", cmd->ori_str, cmd->input_mode);
 
         if (cmd->output_mode != -1) {
-            printf("base %d", cmd->output_mode);
+            printf("base %d\n", cmd->output_mode);
         } else {
-            printf("unspecified base");
+            printf("unspecified base\n");
         }
-
-        if (cmd->mode[SIMPLIFIED] == 1) {
-            printf("(Simplified)");
-        }
-        printf("\n");
-
     }
-
-
 
     if (cmd->ori_str[0] == '0') {
         if (strchr("bdox", cmd->ori_str[1]) == NULL) {
@@ -263,7 +255,11 @@ void calculate(struct command *cmd) {
     
 }
 
-char* get_in_given_base(struct command *cmd) {
+char *get_in_given_base(struct command *cmd) {
+    if (cmd->output_mode == -1) {
+        cmd->output_mode = 10;
+    }
+
     int tar = cmd->target;
     int base = cmd->output_mode;
     int len = cal_len(tar, base);
@@ -277,6 +273,8 @@ char* get_in_given_base(struct command *cmd) {
 }
 
 void print_in_given_base(struct command *cmd) {
+
+
     char *str = get_in_given_base(cmd);
     int base = cmd->output_mode;
 
