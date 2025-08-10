@@ -2,6 +2,7 @@
 // This version supports arbitary argument sequence
 // And supports argument like 10 without "-" when casting a base
 // Comprehensive - to bo completed
+
 #include <ctype.h>
 #include <malloc.h>
 #include <stdio.h>
@@ -323,4 +324,5 @@ void print_usage(void) {
     printf("s - simplified\n");
     printf("c - comprehensive\n");
 }
+
 
