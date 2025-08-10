@@ -1,4 +1,4 @@
-// version 3.2
+// version 3.3
 // This version supports arbitary argument sequence
 // And supports argument like 10 without "-" when casting a base
 // Comprehensive - to bo completed
@@ -308,7 +308,7 @@ int cal_len(int tar, int base) {
 
 void print_comprehensive(struct command *cmd) {
 
-    printf("TODO\n");
+    printf("TO be continued\n");
 
 }
 
@@ -324,7 +324,3 @@ void print_usage(void) {
     printf("s - simplified\n");
     printf("c - comprehensive\n");
 }
-
-
-
-
