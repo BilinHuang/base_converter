@@ -309,6 +309,14 @@ int cal_len(int tar, int base) {
 void print_comprehensive(struct command *cmd) {
 
     printf("TO be continued\n");
+    printf("For example:\n");
+    printf("Index:     8   7   6   5   4   3   2   1   0\n");
+    printf("Value ea:  256 128 64  32  16  8   4   2   1\n");
+    printf("Digits:    1   0   1   0   1   0   1   0   1\n");
+    printf("Value:     256 0   64  0   16  8   4   0   1\n");
+    
+    printf("In binary, it takes 8 bits, can be stored in 1 byte(s)\n");
+    
 
 }
 
@@ -324,3 +332,4 @@ void print_usage(void) {
     printf("s - simplified\n");
     printf("c - comprehensive\n");
 }
+
