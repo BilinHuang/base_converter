@@ -44,7 +44,6 @@ int cal_len(int tar, int base);
 
 void print_comprehensive(struct command *cmd);
 
-
 int main(int argc, char *argv[]) {
     if (argc <= 1 || argc > 5) {
         print_usage();
@@ -332,4 +331,5 @@ void print_usage(void) {
     printf("s - simplified\n");
     printf("c - comprehensive\n");
 }
+
 
